@@ -20,6 +20,7 @@
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
   
 
 </head>
@@ -245,12 +246,12 @@ $.get(queryURL4 , function(data) {
         //console.log(response3[0].TotalBedtime);
         var Category="TotalBedtime";
         var dailyTimeBuisness=response3[length-1].TotalBedtime;
-valuepie1=dailyTimeBuisness;
+        valuepie1=dailyTimeBuisness;
 
 
         var Category2="TotalProductive";
         var dailyTimeBuisness2=response3[length-1].Buisness;
-valuepie2=dailyTimeBuisness2;
+        valuepie2=dailyTimeBuisness2;
 
       // Get reference to existing tbody element, create a new table row element
       var tBody = $("tbody");
@@ -327,14 +328,22 @@ valuepie2=dailyTimeBuisness2;
       //console.log(queryURL3);
       console.log(response3);
       console.log(today);
-   
+   // UpdateChart();
+ 
+ 
+   // Themes begin
+  am4core.useTheme(am4themes_animated);
+  
 
-    
-      
-    }
+
+
+
+
+
+
+      }
 
     });
-
 
 
 
@@ -345,28 +354,24 @@ valuepie2=dailyTimeBuisness2;
 
     //****************************End  Rescue time*****************
 
-   
 
-
- 
-
-  am4core.ready(function() {
-  
-  
-  // Themes begin
+// Themes begin
   am4core.useTheme(am4themes_animated);
   // Themes end
   
   // Create chart instance
   var chart = am4core.create("chartdiv", am4charts.PieChart);
   
-  // Add data
-  chart.data = [ {
+
+var data = {
+
+  "set1": [{
+    
     "category": "Bed Time",
     "hours": valuepie1
   }, {
     "category": "GA (work)",
-    "hours": 9
+    "hours": 10
   }, {
     "category": "Market Mastery",
     "hours": 3
@@ -379,8 +384,60 @@ valuepie2=dailyTimeBuisness2;
   },{
     "category": "Lyft",
     "hours": 0.6
-  },
- ];
+    
+  }],
+  "set2": [{
+    
+   "category": "Bed Time",
+    "hours": valuepie1
+  }, {
+    "category": "GA (work)",
+    "hours": 11
+  }, {
+    "category": "Market Mastery",
+    "hours": 3
+  }, {
+    "category": "Buisness",
+    "hours": valuepie2
+  }, {
+    "category": "Pimpin",
+    "hours": 2
+  },{
+    "category": "Lyft",
+    "hours": 0.6
+    
+  }],
+  "set3":
+  
+  [{
+    
+    "category": "Bed Time",
+    "hours": valuepie1
+  }, {
+    "category": "GA (work)",
+    "hours": 12
+  }, {
+    "category": "Market Mastery",
+    "hours": 3
+  }, {
+    "category": "Buisness",
+    "hours": valuepie2
+  }, {
+    "category": "Pimpin",
+    "hours": 2
+  },{
+    "category": "Lyft",
+    "hours": 0.6
+    
+  }],
+}
+
+
+
+
+  am4core.ready(function() {
+  
+  
 
   // Add and configure Series
   var pieSeries = chart.series.push(new am4charts.PieSeries());
@@ -395,14 +452,32 @@ valuepie2=dailyTimeBuisness2;
   pieSeries.hiddenState.properties.endAngle = -90;
   pieSeries.hiddenState.properties.startAngle = -90;
   
+  
+  
   }); // end am4core.ready()
   
+function selectDataset(set) {
+  chart.data = data[set];
+}
 
+// Add data
+chart.data = data.set1;
   
   </script>
   
   <!-- HTML -->
-  <div id="chartdiv"></div>
+  <div id="chartdiv">
+      
+
+<select onchange="selectDataset(this.options[this.selectedIndex].value);">
+  <option value="set1">Data Set #1</option>
+  <option value="set2">Data Set #2</option>
+  <option value="set3">Data Set #3</option>
+</select>
+
+
+      
+  </div>
 
 
 </body>
